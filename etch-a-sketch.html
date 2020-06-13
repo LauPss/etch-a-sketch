@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>Etch-a-sketch</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.33" />
+	<style>
+		h1 {
+			text-align: center;
+		}
+		
+		#clearBtn {
+			display: block;
+			margin-bottom: 20px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		#container {
+			background-color: white;
+			border: 1px solid #ddd;
+			display: grid;
+			height: 400px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 400px;
+		}
+		
+		.cells {
+			border: 1px dashed #eee;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Etch-a-Sketch</h1>
+	<script>
+		const containerDiv = document.createElement("div");
+		containerDiv.setAttribute("id", "container");
+		document.body.appendChild(containerDiv);
+		
+		let gridSize = 16;
+		
+		const clearBtn = document.createElement("button");
+		clearBtn.textContent = "Clear and create new grid";
+		clearBtn.setAttribute("id", "clearBtn");
+		clearBtn.addEventListener("click", (e) => {
+			gridSize = prompt("Please, define the size of the grid in squares.", "16");
+			containerDiv.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+			containerDiv.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+			createGrid(gridSize);
+		});
+		
+		function createGrid(gridSize) {
+			const gridCells = Math.pow(gridSize, 2);
+			for (i = 0; i < gridCells; i++) {
+				const cellDiv = document.createElement("div");
+				cellDiv.classList.add("cells");
+				containerDiv.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+				containerDiv.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+				containerDiv.appendChild(cellDiv);
+				
+				let light = 99; /*lets both 1st and 10th hover effect visible. */
+				const hue = Math.floor((Math.random() * 360) + 1);
+				const saturation = Math.floor((Math.random() * 100) + 1) + "%";
+				cellDiv.addEventListener("mouseover", (e) => {
+					cellDiv.setAttribute("id", "hovered");
+					light -= 10;
+					console.log(light);
+					lightPerc = light + "%";
+					cellDiv.style.backgroundColor = `hsl(${hue}, ${saturation}, ${lightPerc})`;
+				});
+				
+				clearBtn.addEventListener("click", (e) => {
+					cellDiv.removeAttribute("id");
+					const allCells = Array.from(containerDiv.querySelectorAll(".cells"));
+					allCells.forEach((div) => {
+						containerDiv.removeChild(cellDiv);
+					});
+				});
+			}
+		}
+		
+		createGrid(gridSize);
+		
+		document.body.insertBefore(clearBtn, containerDiv);
+		
+	</script>
+
+</body>
+
+</html>
