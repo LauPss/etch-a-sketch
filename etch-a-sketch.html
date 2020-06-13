@@ -62,13 +62,12 @@
 				containerDiv.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
 				containerDiv.appendChild(cellDiv);
 				
-				let light = 99; /*lets both 1st and 10th hover effect visible. */
+				let light = 99; /*makes both 1st and 10th hover effect visible. */
 				const hue = Math.floor((Math.random() * 360) + 1);
 				const saturation = Math.floor((Math.random() * 100) + 1) + "%";
 				cellDiv.addEventListener("mouseover", (e) => {
 					cellDiv.setAttribute("id", "hovered");
 					light -= 10;
-					console.log(light);
 					lightPerc = light + "%";
 					cellDiv.style.backgroundColor = `hsl(${hue}, ${saturation}, ${lightPerc})`;
 				});
